@@ -1,0 +1,21 @@
+  #!/bin/sh
+
+  #Update Ubuntu distro
+  sudo apt-get -y update
+  sudo apt-get -y upgrade
+  
+  #Install docker
+  sudo apt-get -y install containerd docker.io
+  
+  #Call visudo
+  printf "\n# Docker daemon specification\n%s ALL=(ALL) NOPASSWD: /usr/bin/dockerd\n" $USER | sudo EDITOR='tee -a' visudo
+  
+  #Modify bash settings
+  printf "\n# Start Docker daemon automatically when logging in if not running.\nRUNNING=\`ps aux | grep dockerd | grep -v grep\`\nif [ -z \"\$RUNNING\" ]; then\n    sudo dockerd > /dev/null 2>&1 &\n    disown\nfi\n" >> ~/.bashrc
+  
+  #Add user to docker group
+  sudo usermod -aG docker $USER
+
+  # To apply groupmembership without log-out running the following command
+  echo "To Apply Docker Group-membership, please enter your password"
+  su - ${USER}
