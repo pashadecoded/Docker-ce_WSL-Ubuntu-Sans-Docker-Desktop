@@ -19,3 +19,6 @@
   # To apply groupmembership without log-out running the following command
   echo "To Apply Docker Group-membership, please enter your password"
   su - ${USER}
+
+  echo -e "\nIn 10 seconds this WSL session will be closed. Then reopen a new WSL session to continue..."
+  sleep 10; kill -9 $PPID
